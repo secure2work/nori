@@ -564,14 +564,13 @@ func TestDependencyGraph_PluginsCmsMySqlHttp(t *testing.T) {
 }
 
 //9) ring -plugin1->interfaceOne, plugin2->InterfaceTwo
-func TestDependencyGraph_Loops(t *testing.T) {
+func TestDependencyGraph_Ring1(t *testing.T) {
 	a := assert.New(t)
 	managerPlugin := dependency.NewManager()
 	a.Equal(errors.LoopVertexFound{Dependency: struct {
 		Constraint string
 		Interface  meta.Interface
 	}{Constraint: ">=1.0.0, <2.0.0", Interface: InterfaceRingOne}}, managerPlugin.Add(plugin_RingOne(meta.Dependency{Constraint: ">=1.0.0, <2.0.0", Interface: InterfaceRingOne})))
-
 	a.Equal(errors.LoopVertexFound{Dependency: struct {
 		Constraint string
 		Interface  meta.Interface
@@ -580,7 +579,7 @@ func TestDependencyGraph_Loops(t *testing.T) {
 }
 
 //10)ring plugin2->plugin3, plugin3->plugin2
-func TestDependencyGraph_Loops2(t *testing.T) {
+func TestDependencyGraph_Ring2(t *testing.T) {
 	a := assert.New(t)
 	managerPlugin := dependency.NewManager()
 	a.Nil(managerPlugin.Add(plugin2()))
@@ -609,17 +608,19 @@ func TestDependencyGraph_Loops2(t *testing.T) {
 }
 
 //10)ring plugin1->plugin2, plugin2->plugin3, plugin3->plugin2, plugin3->plugin1
-func TestDependencyGraph_Ring2(t *testing.T) {
+func TestDependencyGraph_Ring3(t *testing.T) {
 	a := assert.New(t)
 	managerPlugin := dependency.NewManager()
-	a.Nil(managerPlugin.Add(plugin1()))
+	a.Nil(managerPlugin.Add(plugin1(meta.Dependency{
+		Constraint: ">=1.0.0, <2.0.0",
+		Interface:  InterfaceTwo,
+	})))
 	a.Nil(managerPlugin.Add(plugin2()))
 	a.Nil(managerPlugin.Add(plugin3(meta.Dependency{Constraint: ">=1.0.0, <2.0.0", Interface: InterfaceTwo},
 		meta.Dependency{
 			Constraint: ">=1.0.0, <2.0.0",
 			Interface:  InterfaceOne,
 		})))
-
 	t.Log("Plugins' order until sorting:")
 	pluginsList := managerPlugin.GetPluginsList()
 	i := 0
