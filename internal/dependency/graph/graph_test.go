@@ -841,8 +841,14 @@ func TestDependencyGraph_SortWithRing3(t *testing.T) {
 func TestDependencyGraph_SortWithRing4(t *testing.T) {
 	a := assert.New(t)
 	managerPlugin := dependency.NewManager()
-	a.Nil(managerPlugin.Add(plugin1()))
-	a.Nil(managerPlugin.Add(plugin2()))
+	a.Nil(managerPlugin.Add(plugin1(meta.Dependency{
+		Constraint: ">=1.0.0, <2.0.0",
+		Interface:  InterfaceTwo,
+	})))
+	a.Nil(managerPlugin.Add(plugin2(meta.Dependency{
+		Constraint: ">=1.0.0, <2.0.0",
+		Interface:  InterfaceThree,
+	})))
 	a.Nil(managerPlugin.Add(plugin3(meta.Dependency{Constraint: ">=1.0.0, <2.0.0", Interface: InterfaceOne})))
 
 	t.Log("Plugins' order until sorting:")
@@ -864,5 +870,4 @@ func TestDependencyGraph_SortWithRing4(t *testing.T) {
 	t.Log()
 	_, err := managerPlugin.Sort()
 	a.Error(err, "Error in sorting")
-	t.Log(err)
 }
