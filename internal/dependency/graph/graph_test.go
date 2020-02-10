@@ -480,7 +480,7 @@ func TestDependencyGraph_AllPluginsAvailable2(t *testing.T) {
 	a.Equal(5, len(pluginsSorted))
 }
 
-//7) plugin1 -> plugin2, plugin 3 -> plugin2, (plugin 2 is unavailable)
+//7) plugin1 -> plugin2, plugin 3 -> plugin2, (pluginHttp, plugin 2 is unavailable)
 func TestDependencyGraph_UnavailablePlugin(t *testing.T) {
 	a := assert.New(t)
 	managerPlugin := dependency.NewManager()
@@ -563,7 +563,7 @@ func TestDependencyGraph_PluginsCmsMySqlHttp(t *testing.T) {
 	a.Equal(3, len(pluginsSorted))
 }
 
-//9) ring -plugin1->plugin1, plugin2->plugin2
+//9) ring -plugin1->interfaceOne, plugin2->InterfaceTwo
 func TestDependencyGraph_Loops(t *testing.T) {
 	a := assert.New(t)
 	managerPlugin := dependency.NewManager()
@@ -580,7 +580,7 @@ func TestDependencyGraph_Loops(t *testing.T) {
 }
 
 //10)ring plugin2->plugin3, plugin3->plugin2
-func TestDependencyGraph_Ring(t *testing.T) {
+func TestDependencyGraph_Loops2(t *testing.T) {
 	a := assert.New(t)
 	managerPlugin := dependency.NewManager()
 	a.Nil(managerPlugin.Add(plugin2()))
