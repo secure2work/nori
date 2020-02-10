@@ -690,12 +690,12 @@ func TestDependencyGraph_Sort1(t *testing.T) {
 		t.Log("Plugin n.", index+1, " in list for start:", pluginsSorted[index].String())
 	}
 	var (
-		index1     int
-		index2     int
-		index3     int
-		indexHTTP  int
-		indexMysql int
-		indexCms   int
+		index1    int
+		index2    int
+		index3    int
+		indexHTTP int
+		indexSql  int
+		indexCms  int
 	)
 	for index, value := range pluginsSorted {
 		if value.ID == pluginOne {
@@ -707,25 +707,24 @@ func TestDependencyGraph_Sort1(t *testing.T) {
 		if value.ID == pluginThree {
 			index3 = index
 		}
-		if value.ID == "pluginCms" {
+		if value.ID == pluginCms {
 			indexCms = index
 		}
-		if value.ID == "pluginHTTP" {
+		if value.ID == pluginHttp {
 			indexHTTP = index
 		}
-		if value.ID == "pluginMysql" {
-			indexMysql = index
+		if value.ID == pluginSql {
+			indexSql = index
 		}
 	}
-	a.Equal(true, index3 < indexMysql)
-	a.Equal(true, index3 < indexHTTP)
-	a.Equal(true, indexHTTP < indexCms)
-	a.Equal(true, indexHTTP > indexMysql)
-	a.Equal(true, indexMysql < indexCms)
-	a.Equal(true, index3 < index2)
-	a.Equal(true, index2 < index1)
-	a.Equal(true, indexHTTP < index1)
-
+	a.Equal(true, index3 < indexSql)
+	a.Equal(true, indexHTTP<indexCms)
+	a.Equal(true, indexSql<indexCms)
+	a.Equal(true, index2<index1)
+	a.Equal(true, indexHTTP<index1)
+	a.Equal(true, index3<indexHTTP)
+	a.Equal(true, indexSql<indexHTTP)
+	a.Equal(true, index3<index2)
 	a.Equal(6, len(pluginsSorted))
 }
 
