@@ -886,3 +886,40 @@ func TestDependencyGraph_SortWithRing4(t *testing.T) {
 	_, err := managerPlugin.Sort()
 	a.Error(err, "Error in sorting")
 }
+
+//17)plugin1-> InterfaceTwo, plugin2->InterfaceOne, plugin3 (all available) order for adding - plugin1, plugin3, plugin2
+func TestDependencyGraph_SortWithRing5(t *testing.T) {
+	a := assert.New(t)
+	managerPlugin := dependency.NewManager()
+	a.Nil(managerPlugin.Add(plugin1(meta.Dependency{
+		Constraint: ">=1.0.0, <2.0.0",
+		Interface:  InterfaceTwo,
+	})))
+	a.Nil(managerPlugin.Add(plugin2(meta.Dependency{
+		Constraint: ">=1.0.0, <2.0.0",
+		Interface:  InterfaceOne,
+	})))
+	a.Nil(managerPlugin.Add(plugin3()))
+	t.Log("Plugins' order until sorting:")
+	pluginsList := managerPlugin.GetPluginsList()
+	i := 0
+	for _, value := range pluginsList {
+		i++
+		if len(value.GetDependencies()) > 0 {
+			t.Log("Plugin n.", i, " in list until sotring:", value.Id(), " Dependencies:")
+			j := 0
+			for _, depvalue := range value.GetDependencies() {
+				j++
+				t.Log("Dependence n.", j, "for", value.Id().ID, "is", depvalue.String())
+			}
+		} else {
+			t.Log("Plugin n.", i, " in list until sotring:", value.Id(), "Plugin doesn't have dependencies")
+		}
+	}
+	t.Log()
+	_, err := managerPlugin.Sort()
+	if err != nil {
+		t.Log("Error in sorting:", err.Error())
+	}
+
+}
