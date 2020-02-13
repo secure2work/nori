@@ -261,6 +261,27 @@ func (g *dependencyGraph) Sort() ([]meta.ID, error) {
 
 	for {
 		if queue.IsEmpty() {
+			/*for _, n := range tmpGraph.Nodes() {
+
+					queue.Enqueue(n)
+
+			}
+			n := queue.Dequeue()
+
+			// add n to tail of L
+			sorted = append(sorted, *n)
+			// for each node m with an edge e from n to m do
+			for _, m := range tmpGraph.To(*n) {
+				e := tmpGraph.Edge(m, *n)
+				// remove edge e from the graph
+				if e != nil {
+					tmpGraph.RemoveEdge(e)
+				}
+				// if m has no other incoming edges then insert m into S
+				if len(tmpGraph.From(m)) == 0 {
+					queue.Enqueue(m)
+				}
+			}*/
 			break
 		}
 		n := queue.Dequeue()
@@ -294,3 +315,37 @@ func (g *dependencyGraph) Sort() ([]meta.ID, error) {
 
 	return sorted, nil
 }
+
+/*
+type Array []meta.ID
+
+func (arr Array) hasPropertyOf(str meta.ID) bool {
+	for _, v := range arr {
+		if str == v {
+			return true
+		}
+	}
+	return false
+}
+
+func ShortestPath(graph *dependencyGraph, start meta.ID, end meta.ID, path []meta.ID) []meta.ID {
+	if _, exist := graph.from[start]; !exist {
+		return path
+	}
+	path = append(path, start)
+	if start == end {
+		return path
+	}
+	shortest := make([]meta.ID, 0)
+	for _, node := range graph.nodes {
+		if !path.hasPropertyOf(node) {
+			newPath := ShortestPath(graph, node, end, path)
+			if len(newPath) > 0 {
+				if (len(shortest) == 0 || (len(newPath) < len(shortest))) {
+					shortest = newPath
+				}
+			}
+		}
+	}
+	return shortest
+}*/

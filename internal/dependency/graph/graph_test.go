@@ -19,19 +19,18 @@ const (
 	pluginRingOne = "pluginRingOne"
 	pluginRingTwo = "pluginRingTwo"
 	pluginHttp    = "pluginHttp"
-	pluginSql="pluginSql"
-	pluginCms="pluginCms"
+	pluginSql     = "pluginSql"
+	pluginCms     = "pluginCms"
 
-	InterfaceOne   = meta.Interface("nori/InterfaceOne@1.0.0")
-	InterfaceTwo   = meta.Interface("nori/InterfaceTwo@1.0.0")
-	InterfaceThree = meta.Interface("nori/InterfaceThree@1.0.0")
-	InterfaceFour  = meta.Interface("nori/InterfaceFour@1.0.0")
+	InterfaceOne     = meta.Interface("nori/InterfaceOne@1.0.0")
+	InterfaceTwo     = meta.Interface("nori/InterfaceTwo@1.0.0")
+	InterfaceThree   = meta.Interface("nori/InterfaceThree@1.0.0")
+	InterfaceFour    = meta.Interface("nori/InterfaceFour@1.0.0")
 	InterfaceRingOne = meta.Interface("nori/RingOne@1.0.0")
 	InterfaceRingTwo = meta.Interface("nori/RingTwo@1.0.0")
-	InterfaceCms   = meta.Interface("nori/InterfaceCms@1.0.0")
-	InterfaceHttp  = meta.Interface("nori/InterfaceHttp@1.0.0")
-	InterfaceSql   = meta.Interface("nori/InterfaceSql@1.0.0")
-
+	InterfaceCms     = meta.Interface("nori/InterfaceCms@1.0.0")
+	InterfaceHttp    = meta.Interface("nori/InterfaceHttp@1.0.0")
+	InterfaceSql     = meta.Interface("nori/InterfaceSql@1.0.0")
 )
 
 // Interface with SelfRing
@@ -721,13 +720,13 @@ func TestDependencyGraph_Sort1(t *testing.T) {
 		}
 	}
 	a.Equal(true, index3 < indexSql)
-	a.Equal(true, indexHTTP<indexCms)
-	a.Equal(true, indexSql<indexCms)
-	a.Equal(true, index2<index1)
-	a.Equal(true, indexHTTP<index1)
-	a.Equal(true, index3<indexHTTP)
-	a.Equal(true, indexSql<indexHTTP)
-	a.Equal(true, index3<index2)
+	a.Equal(true, indexHTTP < indexCms)
+	a.Equal(true, indexSql < indexCms)
+	a.Equal(true, index2 < index1)
+	a.Equal(true, indexHTTP < index1)
+	a.Equal(true, index3 < indexHTTP)
+	a.Equal(true, indexSql < indexHTTP)
+	a.Equal(true, index3 < index2)
 	a.Equal(6, len(pluginsSorted))
 }
 
