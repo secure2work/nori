@@ -107,7 +107,6 @@ func (m *manager) Add(mt meta.Meta) error {
 		}
 		for i, dep := range deps {
 			depID, err := m.Resolve(dep)
-
 			if err != nil {
 				continue
 			}

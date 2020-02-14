@@ -316,36 +316,3 @@ func (g *dependencyGraph) Sort() ([]meta.ID, error) {
 	return sorted, nil
 }
 
-/*
-type Array []meta.ID
-
-func (arr Array) hasPropertyOf(str meta.ID) bool {
-	for _, v := range arr {
-		if str == v {
-			return true
-		}
-	}
-	return false
-}
-
-func ShortestPath(graph *dependencyGraph, start meta.ID, end meta.ID, path []meta.ID) []meta.ID {
-	if _, exist := graph.from[start]; !exist {
-		return path
-	}
-	path = append(path, start)
-	if start == end {
-		return path
-	}
-	shortest := make([]meta.ID, 0)
-	for _, node := range graph.nodes {
-		if !path.hasPropertyOf(node) {
-			newPath := ShortestPath(graph, node, end, path)
-			if len(newPath) > 0 {
-				if (len(shortest) == 0 || (len(newPath) < len(shortest))) {
-					shortest = newPath
-				}
-			}
-		}
-	}
-	return shortest
-}*/
